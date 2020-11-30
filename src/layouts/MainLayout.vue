@@ -3,6 +3,7 @@
     <header class="header">
       <NavBar
         @sideBarHandler="$emit('sideBarHandler')"
+        v-model="innerValue"
       />
     </header>
     <main class="page">
@@ -23,6 +24,22 @@ export default {
   name: 'MainLayout',
   components: {
     NavBar,
+  },
+  props: {
+    value: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    innerValue: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit('input', value);
+      },
+    },
   },
 };
 
@@ -46,7 +63,7 @@ export default {
   transition: filter 0.5s ease;
   //margin-top: 80px;
   //height: calc(100% - 80px);
-  //height: 100%;
+  height: 100%;
   overflow: auto;
 }
 

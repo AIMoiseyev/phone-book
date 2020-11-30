@@ -1,8 +1,9 @@
 <template>
   <button
     class="button"
-    :class="{'button__icon': imageModifier}"
+    :class="{'button__icon': imageModifier, 'button__text': text}"
     @click="$emit('click')"
+    :type="type"
   >
     <span
       v-if="text"
@@ -27,6 +28,10 @@ export default {
       type: String,
       default: '',
     },
+    type: {
+      type: String,
+      default: 'button',
+    },
   },
 };
 </script>
@@ -47,24 +52,31 @@ export default {
   padding: 11px 26px;
   cursor: pointer;
   font-weight: 500;
-  transition: transform .3s ease-in-out;
   height: max-content;
 }
 
-button:active, button:focus {
+.button:active, button:focus {
   outline: none;
 }
 
-.button:hover {
-  transform: scale(1.2);
+.button__text {
+  opacity: 1;
+  transition: opacity .3s ease-in-out;
+}
+
+.button__text:hover {
+  opacity: .7;
 }
 
 .button__icon {
-  //width: 20px;
-  //height: 20px;
   padding: 0;
   background-color: transparent;
   border: none;
+  transition: transform .3s ease-in-out;
+}
+
+.button__icon:hover {
+  transform: scale(1.2);
 }
 
 .pencil {

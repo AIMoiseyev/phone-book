@@ -3,40 +3,41 @@
     <div class="card__content">
       <div class="card__avatar">
         <p class="card__abbreviation">
-          AM
+          {{ contact.initials }}
         </p>
       </div>
       <div>
         <p class="card__contact">
-          Александр Игоревич Моисеев
+          {{ fullName }}
         </p>
-        <span>телефон:&nbsp;<span>{{ phone }}</span></span>
+        <span>телефон:&nbsp;<span>{{ contact.phone }}</span></span>
       </div>
       <div class="card__buttons">
         <Button
           class="card__button"
           :image-modifier="'pencil'"
-          @click="$emit('onEdit')"
+          @click="$emit('onEdit', contact.id)"
         />
         <Button
           class="card__button"
           :image-modifier="'close'"
-          @click="$emit('onDelete')"
+          @click="$emit('onDelete', contact.id)"
         />
       </div>
     </div>
     <div class="card__footer">
       <p class="card__date">
-        создан:&nbsp;<span>11.09.2002</span>
+        создан:&nbsp;<span>{{ dateOfCreate }}</span>
       </p>
       <p class="card__date">
-        изменен:&nbsp;<span>13.10.2002</span>
+        изменен:&nbsp;<span>{{ dateOfUpdate }}</span>
       </p>
     </div>
   </div>
 </template>
 
 <script>
+import dateToLocalString from '@/utils/date-to-local-string';
 import Button from '@/components/Button.vue';
 
 export default {
@@ -45,9 +46,20 @@ export default {
     Button,
   },
   props: {
-    phone: {
-      type: Number,
+    contact: {
+      type: Object,
       required: true,
+    },
+  },
+  computed: {
+    fullName() {
+      return `${this.contact.firstName} ${this.contact.middleName} ${this.contact.lastName}`;
+    },
+    dateOfCreate() {
+      return dateToLocalString(this.contact.created);
+    },
+    dateOfUpdate() {
+      return dateToLocalString(this.contact.updated);
     },
   },
 };

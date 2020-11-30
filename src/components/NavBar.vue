@@ -6,30 +6,74 @@
         :image-modifier="'menu'"
         @click="$emit('sideBarHandler')"
       />
-      <h1 class="navbar__title">
+      <h1
+        v-if="$route.path === '/'"
+        class="navbar__title"
+      >
         Список контактов
       </h1>
+      <h1
+        v-else-if="$route.path === '/add'"
+        class="navbar__title"
+      >
+        Новый контакт
+      </h1>
+      <h1
+        v-else-if="$route.path.includes('/edit')"
+        class="navbar__title"
+      >
+        Редактировать контакт
+      </h1>
     </div>
-    <Button
-      v-if="$route.path === '/'"
-      :image-modifier="'add-contact'"
-      @click="goToAddContact"
-    />
-    <Button
-      v-else
-      :image-modifier="'back'"
-      @click="goToMain"
-    />
+    <div
+      class="navbar__container"
+    >
+      <Input
+        v-if="$route.path === '/'"
+        class="navbar__input"
+        :placeholder="'Поиск контакта'"
+        :id="'search'"
+        v-model="innerValue"
+      />
+      <Button
+        v-if="$route.path === '/'"
+        :image-modifier="'add-contact'"
+        @click="goToAddContact"
+      />
+      <Button
+        v-else
+        :image-modifier="'back'"
+        @click="goToMain"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import Button from '@/components/Button.vue';
+import Input from '@/components/Input.vue';
 
 export default {
   name: 'NavBar',
   components: {
     Button,
+    Input,
+  },
+  props: {
+    value: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    innerValue: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit('input', value);
+      },
+    },
   },
   methods: {
     goToAddContact() {
@@ -59,11 +103,23 @@ export default {
 
 .navbar__wrapper {
   display: flex;
+  align-items: center;
+}
+
+.navbar__container {
+  display: flex;
+  align-items: center;
+}
+
+.navbar__input {
+  margin-right: 16px;
+  width: 300px;
 }
 
 .navbar__title {
   font-size: 32px;
   margin: 0;
+  color: black;
 }
 
 .navbar__button {
