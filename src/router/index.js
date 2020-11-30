@@ -15,6 +15,11 @@ const routes = [
     name: 'AddContactPage',
     component: () => import('../views/AddContactPage'),
   },
+  {
+    path: '/edit/:id',
+    name: 'EditContactPage',
+    component: () => import('../views/EditContactPage'),
+  },
 ];
 
 const router = new VueRouter({
