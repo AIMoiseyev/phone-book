@@ -73,13 +73,12 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  //margin-bottom: 24px;
   align-items: flex-start;
 }
 
 .input__label {
   display: inline-block;
-  color: $color-icon;
+  color: inherit;
   text-transform: uppercase;
   font-size: 12px;
   margin-bottom: 8px;
@@ -101,7 +100,11 @@ export default {
 
 .input__field:focus {
   outline: none;
-  border-color: $color-icon;
+  border-color: lightblue;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.input__field_padding_right {
+  padding-right: 30px;
 }
 </style>
