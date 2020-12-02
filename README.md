@@ -1,24 +1,16 @@
-# phone-book
+# [Phone-book](https://github.com/AIMoiseyev/phone-book)
 
-## Project setup
+## Описание:
+Простая книга телефонных контактов. Приложение позволяет добавлять,
+редактировать, фильтровать, искать, удалять контакты, а также сохранять контакты на компьютер.
+Контакты сохраняются в localstorage.
+
+## Установка проекта
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Запуск в режиме development
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
