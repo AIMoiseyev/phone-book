@@ -1,5 +1,5 @@
 <template>
-  <Layout v-if="contacts">
+  <Layout>
     <template v-slot:main>
       <div class="form__container">
         <form
@@ -57,6 +57,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { VALIDATION_FIELDS, CONTACTS_MODEL } from '@/config/config';
 import Layout from '@/layouts/MainLayout.vue';
 import FormInput from '@/components/Input.vue';
 import Button from '@/components/Button.vue';
@@ -76,24 +77,8 @@ export default {
   },
   data() {
     return {
-      cards: {
-        firstName: {
-          title: 'имя',
-          value: '',
-        },
-        middleName: {
-          title: 'отчество',
-          value: '',
-        },
-        lastName: {
-          title: 'фамилия',
-          value: '',
-        },
-        phone: {
-          title: 'телефон',
-          value: '',
-        },
-      },
+      cards: JSON.parse(JSON.stringify(VALIDATION_FIELDS)),
+      model: JSON.parse(JSON.stringify(CONTACTS_MODEL)),
     };
   },
   validations: {
@@ -138,7 +123,7 @@ export default {
         created: new Date(),
         updated: new Date(),
       };
-      const contacts = JSON.parse(JSON.stringify(this.contacts));
+      const contacts = JSON.parse(JSON.stringify(this.contacts)) || this.model;
       contacts.contacts.push(formData);
       this.$store.dispatch('contacts/setContacts', contacts);
       this.$router.push({ name: 'contacts' });
@@ -185,11 +170,30 @@ export default {
 }
 
 .form__input-error-text {
-  //margin-top: 8px;
+  /*//margin-top: 8px;*/
   font-size: 12px;
   color: red;
   position: absolute;
   left: 0;
   top: 65px;
+}
+
+@media (max-width: 585px) {
+  .form {
+    width: 100%;
+    margin: 0 16px;
+  }
+  .form__buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .form__button {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+  .form__button:last-of-type {
+    margin-bottom: 0;
+  }
 }
 </style>
