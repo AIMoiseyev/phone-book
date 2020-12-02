@@ -32,11 +32,13 @@
         <div class="modal__footer">
           <div class="modal__buttons">
             <Button
+              v-if="cancelButtonText"
               class="modal__button"
               :text="cancelButtonText"
               @click="$emit('onCancel')"
             />
             <Button
+              v-if="acceptButtonText"
               :text="acceptButtonText"
               @click="$emit('onAccept')"
             />
@@ -125,7 +127,7 @@ export default {
 }
 
 .modal__container {
-  width: 620px;
+  max-width: 620px;
   position: absolute;
   z-index: 102;
   background-color: white;

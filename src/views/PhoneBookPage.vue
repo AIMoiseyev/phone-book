@@ -1,12 +1,16 @@
 <template>
   <layout
+    v-if="contactsData"
     @sideBarHandler="sideBarHandler"
+    @openContactList="sideBarHandler"
     v-model="searchValue"
   >
     <template v-slot:sideBar>
       <transition name="slide">
         <SideBar
           v-if="open"
+          :data="contacts"
+          @onDelete="onDelete"
         />
       </transition>
     </template>
@@ -24,7 +28,7 @@
         </router-link>
       </p>
       <p
-        v-if="!contacts.length"
+        v-else-if="!contacts.length && contactsData.length"
         class="no-content"
       >
         Контакт не найден.
@@ -33,7 +37,9 @@
         v-else
         class="phone-book"
       >
-        <div class="phone-book__filter">
+        <div
+          class="phone-book__filter"
+        >
           <p class="phone-book__filter-title">
             Сортировать по:
           </p>
@@ -83,6 +89,7 @@
 import { mapGetters } from 'vuex';
 import localeCompare from '@/utils/locale-compare';
 import { debounce } from 'lodash';
+import { FILTER_FIELDS } from '@/config/config';
 import Layout from '@/layouts/MainLayout.vue';
 import PhoneCard from '@/components/PhoneCard.vue';
 import SideBar from '@/components/SideBar.vue';
@@ -104,26 +111,7 @@ export default {
       value: '',
       isShowModal: false,
       contactFullName: '',
-      filterFields: [
-        {
-          title: 'ФИО',
-          options: [
-            { text: 'Фамилия от А до Я', value: 1, sortName: 'lastName' },
-            { text: 'Фамилия от Я до А', value: 0, sortName: 'lastName' },
-            { text: 'Имя от А до Я', value: 1, sortName: 'firstName' },
-            { text: 'Имя от Я до А', value: 0, sortName: 'firstName' },
-          ],
-        },
-        {
-          title: 'Дате',
-          options: [
-            { text: 'Добавлены раньше', value: 1, sortName: 'created' },
-            { text: 'Добавлены позже', value: 0, sortName: 'created' },
-            { text: 'Изменены раньше', value: 1, sortName: 'updated' },
-            { text: 'Изменены позже', value: 0, sortName: 'updated' },
-          ],
-        },
-      ],
+      filterFields: FILTER_FIELDS,
     };
   },
   computed: {
@@ -139,8 +127,8 @@ export default {
       }, 500),
     },
     contacts() {
-      if (!this.contactsData) {
-        return null;
+      if (!this.contactsData.length) {
+        return [];
       }
       const contacts = [];
       this.contactsData.forEach((contact) => {
@@ -156,7 +144,14 @@ export default {
   },
   methods: {
     sortContact(option, selected) {
-      this.filterFields.find((item) => item.title === selected).title = option.text;
+      this.filterFields.forEach((item) => {
+        const field = item;
+        if (field.title === selected) {
+          field.title = option.text;
+        } else {
+          field.title = field.optionTitle;
+        }
+      });
       this.contacts.sort(localeCompare(option.sortName, option.value));
     },
     sideBarHandler() {
@@ -184,6 +179,9 @@ export default {
 <style scoped>
 .phone-book {
   width: 100%;
+  height: calc(100vh - 80px);
+  height: -webkit-height;
+  overflow: auto;
 }
 .phone-book__filter {
   display: flex;
@@ -203,18 +201,21 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
   gap: 8px;
-  width: 50vw;
+  max-width: 600px;
   margin: 20px auto;
 }
 
 .slide-enter-active {
   transition: all .3s linear;
+  opacity: .3;
 }
 .slide-leave-active {
   transition: all .3s linear;
+  opacity: .3;
 }
 .slide-enter, .slide-leave-to {
   width: 0;
+  opacity: 0;
 }
 
 .list-complete-item {
@@ -227,11 +228,12 @@ export default {
 .list-complete-enter, .list-complete-leave-to
   /* .list-complete-leave-active до версии 2.1.8 */ {
   opacity: 0;
-  transform: translateY(100px);
+  transform: translateX(500px);
 }
 
 .list-complete-leave-active {
   position: absolute;
+  transform: translateX(500px);
 }
 
 .no-content {
@@ -248,5 +250,22 @@ export default {
 
 .no-content__link:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  .card__container {
+    max-width: 500px;
+  }
+  .phone-book__filter {
+    max-width: 500px;
+    flex-direction: column;
+    min-height: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card__container {
+    max-width: 400px;
+  }
 }
 </style>
