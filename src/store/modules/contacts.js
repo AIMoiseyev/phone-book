@@ -1,28 +1,5 @@
 import sortByField from '@/utils/sort-by-field';
 
-const initialContacts = {
-  contacts: [
-    {
-      firstName: 'Киану',
-      middleName: 'Борисович',
-      lastName: 'Ривз',
-      phone: '+19872377784',
-      id: 'f5135b73',
-      created: '2019-10-30T15:43:50.287Z',
-      updated: '2019-11-30T15:43:50.287Z',
-    },
-    {
-      firstName: 'Волтер',
-      middleName: 'Блэкович',
-      lastName: 'Вайт',
-      phone: '+19871155500',
-      id: 'f5ad1398',
-      created: '2018-09-30T15:43:50.287Z',
-      updated: '2018-12-30T15:43:50.287Z',
-    },
-  ],
-};
-
 const state = {
   contacts: null,
 };
@@ -37,7 +14,7 @@ const actions = {
   getContacts(context) {
     const contacts = localStorage.getItem('contacts');
     if (!contacts || Object.keys(contacts).length === 0) {
-      context.commit('setContacts', initialContacts);
+      context.commit('setContacts', null);
       return;
     }
     context.commit('setContacts', JSON.parse(contacts));
