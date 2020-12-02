@@ -1,7 +1,10 @@
 <template>
-  <Layout v-if="contacts">
+  <Layout>
     <template v-slot:main>
-      <div class="form__container">
+      <div
+        v-if="contacts"
+        class="form__container"
+      >
         <form
           class="form"
           @submit.prevent="submitHandler"
@@ -57,6 +60,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { VALIDATION_FIELDS } from '@/config/config';
 import Layout from '@/layouts/MainLayout.vue';
 import FormInput from '@/components/Input.vue';
 import Button from '@/components/Button.vue';
@@ -72,24 +76,7 @@ export default {
   },
   data() {
     return {
-      cards: {
-        firstName: {
-          title: 'имя',
-          value: '',
-        },
-        middleName: {
-          title: 'отчество',
-          value: '',
-        },
-        lastName: {
-          title: 'фамилия',
-          value: '',
-        },
-        phone: {
-          title: 'телефон',
-          value: '',
-        },
-      },
+      cards: JSON.parse(JSON.stringify(VALIDATION_FIELDS)),
     };
   },
   validations: {
@@ -197,5 +184,24 @@ export default {
   position: absolute;
   left: 0;
   top: 65px;
+}
+
+@media (max-width: 585px) {
+  .form {
+    width: 100%;
+    margin: 0 16px;
+  }
+  .form__buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .form__button {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+  .form__button:last-of-type {
+    margin-bottom: 0;
+  }
 }
 </style>

@@ -8,6 +8,7 @@
     <span
       v-if="text"
     >{{ text }}</span>
+    <slot />
     <div
       v-if="imageModifier"
       class="button__image"
@@ -38,13 +39,12 @@ export default {
 
 <style scoped>
 .button {
-  border: 1px solid darkgreen;
-  background-color: darkgreen;
-  color: white;
-  fill: red;
+  border: 1px solid lightblue;
+  background-color: lightblue;
+  color: black;
   text-transform: uppercase;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1;
   display: inline-flex;
   align-items: center;
@@ -55,7 +55,7 @@ export default {
   height: max-content;
 }
 
-.button:active, button:focus {
+.button:active, .button:focus {
   outline: none;
 }
 
@@ -107,10 +107,24 @@ export default {
   height: 40px;
 }
 
+.save-contact {
+  background-image: url(./../assets/images/save-icon.png);
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+}
+
 .back {
   background-image: url(./../assets/images/back.png);
   background-size: cover;
   width: 40px;
   height: 40px;
+}
+
+.input__clear {
+  background-image: url(./../assets/images/close-image.png);
+  background-size: cover;
+  width: 20px;
+  height: 20px;
 }
 </style>

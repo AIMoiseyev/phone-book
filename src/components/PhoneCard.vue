@@ -10,7 +10,7 @@
         <p class="card__contact">
           {{ fullName }}
         </p>
-        <span>телефон:&nbsp;<span>{{ contact.phone }}</span></span>
+        <span>телефон:&nbsp;<span class="card__span">{{ contact.phone }}</span></span>
       </div>
       <div class="card__buttons">
         <Button
@@ -68,7 +68,7 @@ export default {
 <style scoped>
 .card {
   display: flex;
-  //justify-content: space-between;
+  justify-content: space-between;
   box-shadow: 0 0 7px 0 rgba(179, 179, 179, 1);
   flex-direction: column;
   min-height: 100px;
@@ -112,6 +112,7 @@ export default {
   margin: 0;
   font-size: 12px;
   line-height: 1.15;
+  color: #2c3e50;
 }
 
 .card__buttons {
@@ -124,5 +125,11 @@ export default {
 
 .card__button:last-of-type {
   margin-right: 0;
+}
+
+@media (max-width: 414px) {
+  .card__span {
+    display: block;
+  }
 }
 </style>

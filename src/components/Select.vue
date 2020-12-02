@@ -83,19 +83,20 @@ export default {
   border: 1px solid black;
   background-color: white;
   box-sizing: border-box;
-  padding: 8px;
   border-radius: 4px;
   box-shadow: 0 0 7px 0 rgba(179, 179, 179, 1);
+  z-index: 1;
 }
 
 .select__value {
   margin: 0;
   background-color: white;
   text-align: left;
-  padding: 4px 0;
+  padding: 8px;
+  transition: all .3s ease-in-out;
 }
 
 .select__value:hover {
-  background-color: grey;
+  background-color: rgba(173, 216, 230, .2);
 }
 </style>
