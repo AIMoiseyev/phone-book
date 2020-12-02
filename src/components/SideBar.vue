@@ -5,7 +5,7 @@
       @click="openContact"
     />
     <Modal
-      v-if="isShowModal"
+      v-if="isShowModal && cardExists"
       title="Контакт"
       @close="closeModal"
       @onAccept="closeModal"
@@ -44,11 +44,22 @@ export default {
     return {
       isShowModal: false,
       contact: {},
+      cardId: '',
     };
+  },
+  computed: {
+    cardExists() {
+      if (!this.cardId) {
+        return true;
+      }
+      const contact = this.data.find((item) => item.id === this.cardId);
+      return !!contact;
+    },
   },
   methods: {
     openContact(id) {
       this.contact = this.data.find((item) => item.id === id);
+      this.cardId = id;
       this.isShowModal = true;
     },
     closeModal() {
@@ -59,6 +70,7 @@ export default {
     },
     onDelete(id) {
       this.$emit('onDelete', id);
+      this.cardId = id;
     },
   },
 };
