@@ -5,6 +5,10 @@
         @sideBarHandler="$emit('sideBarHandler')"
         v-model="innerValue"
       />
+      <MobileNavBar
+        @openContactList="$emit('openContactList')"
+        v-model="innerValue"
+      />
     </header>
     <main class="page">
       <div
@@ -19,11 +23,13 @@
 
 <script>
 import NavBar from '@/components/NavBar.vue';
+import MobileNavBar from '@/components/MobileNavBar.vue';
 
 export default {
   name: 'MainLayout',
   components: {
     NavBar,
+    MobileNavBar,
   },
   props: {
     value: {
@@ -55,21 +61,19 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 .page {
   display: flex;
   flex-direction: column;
-  transition: filter 0.5s ease;
-  //margin-top: 80px;
-  //height: calc(100% - 80px);
   height: 100%;
   overflow: auto;
 }
 
 .page__wrapper {
     flex-grow: 1;
-    //overflow: hidden;
     display: flex;
     position: relative;
 }
